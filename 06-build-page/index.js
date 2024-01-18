@@ -107,14 +107,8 @@ async function buildPage() {
   const distPath = path.join(__dirname, 'project-dist');
 
   await createDir(distPath);
-
-  // copy assets
   await copyDir('assets', `project-dist${path.sep}assets`);
-
-  // bundle styles
   await buildCSSBundle(srcStyleFolder, dstStyle);
-
-  // replace template tags
   replaceTemplates();
 }
 
