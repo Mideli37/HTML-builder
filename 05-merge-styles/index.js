@@ -18,17 +18,25 @@ async function buildCSSBundle(srcFolder, dstPath) {
 
     const writeStream = fs.createWriteStream(dstPath);
 
+    writeStream.on('error', (err) => {
+      console.error(err);
+    });
+
     for (let i = 0; i < files.length; i += 1) {
       const file = files[i];
-      const filePath = path.join(file.path, file.name);
-      const fileExt = path.extname(filePath);
+      const fileExt = path.extname(file.name);
       if (fileExt === '.css') {
+        const filePath = path.join(file.path, file.name);
         const readStream = fs.createReadStream(filePath);
-        readStream.on('data', (data) => {
-          writeStream.write(data.toString());
+
+        await new Promise((resolve, reject) => {
+          readStream.pipe(writeStream, { end: false });
+          readStream.on('end', resolve);
+          readStream.on('error', reject);
         });
       }
     }
+    writeStream.emit('end');
   } catch (err) {
     console.error(err);
   }
