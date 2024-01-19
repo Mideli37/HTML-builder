@@ -52,7 +52,7 @@ const srcStyleFolder = 'styles';
 const dstStyle = path.join(__dirname, 'project-dist', 'style.css');
 
 async function buildCSSBundle(srcFolder, dstPath) {
-  let files = await getFilesDirents(srcFolder);
+  const files = await getFilesDirents(srcFolder);
 
   const writeStream = fs.createWriteStream(dstPath);
 

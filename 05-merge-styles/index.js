@@ -14,7 +14,7 @@ async function getFilesDirents(folder) {
 
 async function buildCSSBundle(srcFolder, dstPath) {
   try {
-    let files = await getFilesDirents(srcFolder);
+    const files = await getFilesDirents(srcFolder);
 
     const writeStream = fs.createWriteStream(dstPath);
 
