@@ -34,10 +34,14 @@ async function copyFolderFiles(srcFolder, dstFolder = srcFolder) {
 }
 
 async function copyDir(srcFolder, dstFolder) {
-  const dstPath = path.join(__dirname, dstFolder);
-  await createDir(dstPath);
+  try {
+    const dstPath = path.join(__dirname, dstFolder);
+    await createDir(dstPath);
 
-  copyFolderFiles(srcFolder, dstFolder);
+    await copyFolderFiles(srcFolder, dstFolder);
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 copyDir('files', 'files-copy');

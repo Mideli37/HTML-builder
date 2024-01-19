@@ -7,3 +7,7 @@ const fileReadStream = fs.createReadStream(filePath);
 fileReadStream.on('data', (data) => {
   console.log(data.toString());
 });
+
+fileReadStream.on('error', (err) => {
+  console.log(err);
+});

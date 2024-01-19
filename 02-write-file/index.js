@@ -15,14 +15,18 @@ const writeStream = fs.createWriteStream(dstPath);
 console.log('Hello! To exit use "exit" or ctrl+c');
 
 function ask() {
-  rl.question('What do you want to write down in the file? >> ', (answer) => {
-    if (answer == 'exit') {
-      rl.close();
-    } else {
-      writeStream.write(`${answer}${os.EOL}`);
-      ask();
-    }
-  });
+  try {
+    rl.question('What do you want to write down in the file? >> ', (answer) => {
+      if (answer == 'exit') {
+        rl.close();
+      } else {
+        writeStream.write(`${answer}${os.EOL}`);
+        ask();
+      }
+    });
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 rl.on('close', function () {
