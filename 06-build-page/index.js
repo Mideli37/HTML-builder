@@ -10,7 +10,7 @@ const path = require('node:path');
 const fs = require('node:fs');
 
 async function getFilesDirents(folder) {
-  const dirents = await readdir(path.join(__dirname, folder), {
+  const dirents = readdir(path.join(__dirname, folder), {
     withFileTypes: true,
   });
   return dirents;
@@ -78,21 +78,19 @@ async function replaceTemplates() {
       '.html',
   );
 
-  const componentContentsProm = components.map(async (component) => {
+  const componentContentsProm = components.map((component) => {
+    return readFile(path.join(__dirname, 'components', component.name), 'utf8');
+  });
+
+  const componentsNames = components.map((component) => {
     const componentBasename = component.name.split('.')[0];
     const componentName = `{{${componentBasename}}}`;
-    return [
-      componentName,
-      await readFile(
-        path.join(__dirname, 'components', component.name),
-        'utf8',
-      ),
-    ];
+    return componentName;
   });
   const componentContents = await Promise.all(componentContentsProm);
 
-  componentContents.forEach((component) => {
-    const [key, value] = component;
+  componentContents.forEach((component, index) => {
+    const [key, value] = [componentsNames[index], component];
     file = file.replaceAll(key, value);
   });
   writeFile(path.join(__dirname, 'project-dist', 'index.html'), file);
