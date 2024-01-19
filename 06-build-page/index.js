@@ -21,11 +21,11 @@ async function createDir(filePath) {
   await mkdir(filePath, { recursive: true });
 }
 
-async function getPathes(srcFolder, dstFolder = srcFolder) {
+async function copyFolderFiles(srcFolder, dstFolder = srcFolder) {
   const folderFiles = await getFilesDirents(srcFolder);
   folderFiles.forEach(async (file) => {
     if (file.isDirectory()) {
-      getPathes(
+      copyFolderFiles(
         path.join(srcFolder, file.name),
         path.join(dstFolder, file.name),
       );
@@ -45,7 +45,7 @@ async function copyDir(srcFolder, dstFolder) {
   const dstPath = path.join(__dirname, dstFolder);
   await createDir(dstPath);
 
-  getPathes(srcFolder, dstFolder);
+  copyFolderFiles(srcFolder, dstFolder);
 }
 
 const srcStyleFolder = 'styles';
