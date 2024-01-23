@@ -93,7 +93,7 @@ async function replaceTemplates() {
     const [key, value] = [componentsNames[index], component];
     file = file.replaceAll(key, value);
   });
-  await writeFile(path.join(__dirname, 'prject-dist', 'index.html'), file);
+  await writeFile(path.join(__dirname, 'project-dist', 'index.html'), file);
 }
 
 async function buildPage() {
